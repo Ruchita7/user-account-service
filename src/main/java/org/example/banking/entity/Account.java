@@ -5,7 +5,7 @@ import lombok.*;
 import org.example.banking.dto.AccountType;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /*
@@ -37,10 +37,9 @@ public class Account {
 
     private String accountNumber;
     private BigDecimal balance;
-    private LocalDate createdOn;
-    private LocalDate updatedOn;
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
 
-    //@Enumerated(EnumType.STRING)
     private AccountType accountType;
 
 }

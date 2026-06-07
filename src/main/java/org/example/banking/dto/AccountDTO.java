@@ -1,11 +1,9 @@
 package org.example.banking.dto;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -21,7 +19,7 @@ public class AccountDTO {
     private UUID userId;
     private String accountNumber;
     private BigDecimal balance;
-    private LocalDate createdOn;
-    private LocalDate updatedOn;
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
     private AccountType accountType;
 }
