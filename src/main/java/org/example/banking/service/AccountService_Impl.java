@@ -83,4 +83,25 @@ public class AccountService_Impl implements AccountService{
                 modelMapper.map(account, AccountDTO.class)).orElseThrow(()-> new Exception("Account Number not found"));
         return accountDTO.getBalance();
     }
+
+    @Override
+    public AccountDTO debitAccount(String accountNumber, BigDecimal amount) {
+        Account account = accountRepository.findByAccountNumber(accountNumber).orElseThrow(() ->
+                new RuntimeException("Account not found"));
+        if (account.getBalance().compareTo(amount) < 0) {
+            throw new RuntimeException("Insufficient balance");
+        }
+        account.setBalance(account.getBalance().subtract(amount));
+        Account updatedAccount = accountRepository.save(account);
+        return modelMapper.map(updatedAccount, AccountDTO.class);
+    }
+
+    @Override
+    public AccountDTO credit(String accountNumber, BigDecimal amount) {
+        Account account = accountRepository.findByAccountNumber(accountNumber).orElseThrow(() ->
+                new RuntimeException("Account not found"));
+        account.setBalance(account.getBalance().add(amount));
+        Account updatedAccount = accountRepository.save(account);
+        return modelMapper.map(updatedAccount, AccountDTO.class);
+    }
 }

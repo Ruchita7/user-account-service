@@ -78,4 +78,8 @@ public interface AccountService {
      * @throws Exception if the account with the specified account number does not exist or if there is an error during the retrieval process.
      */
     BigDecimal findBalanceByAccountNumber(String accountNumber) throws Exception;
+
+    AccountDTO debitAccount(String accountNumber, BigDecimal amount);
+
+    AccountDTO credit(String accountNumber, BigDecimal amount);
 }

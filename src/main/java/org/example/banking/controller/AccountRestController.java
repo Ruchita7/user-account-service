@@ -1,6 +1,7 @@
 package org.example.banking.controller;
 
 import org.example.banking.dto.AccountDTO;
+import org.example.banking.dto.AmountRequest;
 import org.example.banking.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -96,6 +97,20 @@ public class AccountRestController {
     @PostMapping
     public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO accountDTO) {
         AccountDTO result = accountService.createAccount(accountDTO);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{accountNumber}/debit")
+    public ResponseEntity<AccountDTO> debitAccount(@PathVariable String accountNumber,
+                                                   @RequestBody AmountRequest request) {
+        AccountDTO result = accountService.debitAccount(accountNumber, request.getAmount());
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{accountNumber}/credit")
+    public ResponseEntity<AccountDTO> creditAccount(@PathVariable String accountNumber,
+                                                   @RequestBody AmountRequest request) {
+        AccountDTO result = accountService.credit(accountNumber, request.getAmount());
         return ResponseEntity.ok(result);
     }
 
