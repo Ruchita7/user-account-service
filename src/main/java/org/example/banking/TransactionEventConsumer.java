@@ -9,7 +9,7 @@ public class TransactionEventConsumer {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionEventConsumer.class);
 
-    @KafkaListener(topics = "transactions", groupId = "user-mgmt-group")
+    @KafkaListener(topics = "transactions", groupId = "user-account-service-group")
     public void consume(TransactionEvent event) {
         log.info("Received transaction event: transactionId={}, amount={}, status={}",
                 event.getTransactionId(), event.getAmount(), event.getStatus());
