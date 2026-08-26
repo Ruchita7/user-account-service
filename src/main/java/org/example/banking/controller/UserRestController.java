@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +19,8 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/users")
+@Tag(name = "User Management", description = "APIs for managing application users")
+
 public class UserRestController {
 
     @Autowired
@@ -27,6 +32,12 @@ public class UserRestController {
      * @return ResponseEntity containing the list of UserDTOs and HTTP status OK.
      */
     @GetMapping
+    @Operation(
+            summary = "Find all users",
+            description = "Provides full user details"
+    )
+    @ApiResponse(responseCode = "200", description = "Users successfully found")
+    @ApiResponse(responseCode = "404", description = "Users not found")
     public ResponseEntity<List<UserDTO>> findAll() {
         List<UserDTO> userList = userService.findAllUsers();
         return new ResponseEntity<>(userList, HttpStatus.OK);
@@ -39,6 +50,12 @@ public class UserRestController {
      * @return ResponseEntity containing the UserDTO and HTTP status OK.
      */
     @GetMapping("/{id}")
+    @Operation(
+            summary = "Get user by ID",
+            description = "Provides full user details based on the unique user database ID."
+    )
+    @ApiResponse(responseCode = "200", description = "User successfully found")
+    @ApiResponse(responseCode = "404", description = "User not found")
     public ResponseEntity<UserDTO> findById(@PathVariable UUID id) {
         UserDTO user = userService.findByUserId(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -51,6 +68,12 @@ public class UserRestController {
      * @return ResponseEntity containing the created UserDTO and HTTP status CREATED.
      */
     @PostMapping
+    @Operation(
+            summary = "Create user",
+            description = "Create a new user"
+    )
+    @ApiResponse(responseCode = "204", description = "User successfully created")
+    @ApiResponse(responseCode = "404", description = "Bad request")
     public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
         UserDTO userResponse = userService.createUser(userDTO);
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
@@ -64,6 +87,12 @@ public class UserRestController {
      * @return ResponseEntity containing the updated UserDTO and HTTP status OK.
      */
     @PutMapping("/{id}")
+    @Operation(
+            summary = "Update user",
+            description = "Update an existing user"
+    )
+    @ApiResponse(responseCode = "204", description = "User successfully updated")
+    @ApiResponse(responseCode = "404", description = "Bad request")
     public ResponseEntity<UserDTO> updateUser(@PathVariable UUID id, @RequestBody UserDTO userDTO) {
         UserDTO userResponse = null;
         try {
@@ -81,6 +110,12 @@ public class UserRestController {
      * @return ResponseEntity with HTTP status NO_CONTENT if deletion is successful.
      */
     @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Delete user",
+            description = "Delete an existing user"
+    )
+    @ApiResponse(responseCode = "204", description = "User successfully deleted")
+    @ApiResponse(responseCode = "404", description = "Bad request")
     public ResponseEntity<UserDTO> deleteUser(@PathVariable UUID id) {
         try {
             userService.deleteUser(id);
